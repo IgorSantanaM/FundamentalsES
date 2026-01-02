@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="../../tests/BeerSender.Domain.Tests/BeerSender.Domain.Tests.csproj" Id="21412bdf-2bd4-423a-8220-dfbdd1bfddcb" />
   <Project Path="../BeerSender.Domain/BeerSender.Domain.csproj" />
 </Solution>
