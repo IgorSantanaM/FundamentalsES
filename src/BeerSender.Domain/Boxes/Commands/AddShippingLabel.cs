@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.WebSockets;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace BeerSender.Domain.Boxes.Commands;
@@ -19,13 +20,10 @@ public class AddShippingLabelHandler(IEventStore eventStore) : CommandHandler<Ad
         var box = boxStream.GetEntity();
 
         if (command.Label.IsValid())
-        {
             boxStream.Append(new ShippingLabelAdded(command.Label));
-        }
+
         else
-        {
             boxStream.Append(new ShippingLabelFailedToAdd(
                 ShippingLabelFailedToAdd.FailReason.TrackingCodeInvalid));
-        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace BeerSender.Domain;
 
-public class EventStream<TEntity>(IEventStore eventStore, Guid aggregateId) where TEntity : AggregateRoot, new()
+public class EventStream<TEntity>(IEventStore eventStore, Guid aggregateId)
+    where TEntity : AggregateRoot, new()
 {
     private int _lastSequenceNumber;
     public TEntity GetEntity()
