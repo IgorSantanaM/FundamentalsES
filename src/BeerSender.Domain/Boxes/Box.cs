@@ -6,9 +6,12 @@ public class Box : AggregateRoot
 {
     public BoxCapacity? Capacity { get; private set; }
     public ShippingLabel? ShippingLabel { get; private set; }
+    public int? NumberOfBottles { get; private set; }
+    public Status Status { get; private set; }
 
     public void Apply(BoxCreated @event)
     {
+        Status = Status.Opened;
         Capacity = @event.Capacity;
     }
 
@@ -16,14 +19,55 @@ public class Box : AggregateRoot
     {
         ShippingLabel = @event.Label;
     }
+
+    public void Apply(BeerAdded @event)
+    {
+        NumberOfBottles = @event.NumberOfBottles;
+    }
+
+    public void Apply(BoxClosed @event)
+    {
+        Status = Status.Closed;
+    }
+    public void Apply(BoxShipped @event)
+    {
+        Status = Status.Shipped;
+    }
 }
 
-public record CreateBox(
-    Guid BoxId, 
-    int DesiredNumbersOfSpots
-);
 
-public record BoxCreated(BoxCapacity Capacity);
+public enum Status
+{
+    Opened = 1,
+    Closed = 2,
+    Shipped = 3
+}
+
+public record BeerAdded(int? NumberOfBottles);
+public record BoxClosed();
+public record BoxShipped();
+public record BoxFailedToClose(BoxFailedToClose.FailReason Reason)
+{
+    public enum FailReason
+    {
+        BoxIsEmpty
+    }
+}
+public record BoxFailedToShip(BoxFailedToShip.FailReason Reason)
+{
+    public enum FailReason
+    {
+        BoxNotReady 
+    }
+}
+public record BottleFailedToAdd(BottleFailedToAdd.FailReason Reason)
+{
+    public enum FailReason
+    {
+        BoxIsFull
+    }
+}
+public record BoxCreated(BoxCapacity? Capacity);
 public record ShippingLabelAdded(
     ShippingLabel Label
 );

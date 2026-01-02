@@ -8,5 +8,4 @@ public record StoredEvent(
     int SequenceNumber,
     DateTime TimeStamp, 
     object EventData
-    
 );
