@@ -1,4 +1,6 @@
 <Solution>
   <Project Path="../../tests/BeerSender.Domain.Tests/BeerSender.Domain.Tests.csproj" Id="21412bdf-2bd4-423a-8220-dfbdd1bfddcb" />
   <Project Path="../BeerSender.Domain/BeerSender.Domain.csproj" />
+  <Project Path="../BeerSender.EventStore/BeerSender.EventStore.csproj" Id="53e178c8-2385-4aea-8430-202eac5eb033" />
+  <Project Path="../BeerSender.Web/BeerSender.Web.csproj" Id="c5ec35cf-f9a8-4715-8121-249238127128" />
 </Solution>
