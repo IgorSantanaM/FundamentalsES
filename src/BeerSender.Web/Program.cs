@@ -1,5 +1,6 @@
 using BeerSender.Domain;
 using BeerSender.EventStore;
+using BeerSender.Web.EventPublishing;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,8 @@ builder.Services.AddSignalR();
 
 builder.Services.RegisterDomain();
 builder.Services.RegisterEventStore();
+builder.Services.AddTransient<INotificationService, NotificationService>();
+
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();

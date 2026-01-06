@@ -1,18 +1,15 @@
 ﻿using BeerSender.Domain;
 using Dapper;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BeerSender.EventStore
 {
-    public class EventStore(EventStoreConnectionFactory dbConnection) : IEventStore
+    public class EventStore(INotificationService notificationService, EventStoreConnectionFactory dbConnection) : IEventStore
     {
         private List<StoredEvent> _newEvents = new();
 
         public void AppendEvent(StoredEvent @event)
         {
-            _newEvents.Add(@event); 
+            _newEvents.Add(@event);
         }
 
         public IEnumerable<StoredEvent> GetEvents(Guid aggregateId)
@@ -53,11 +50,15 @@ namespace BeerSender.EventStore
             using var transaction = connection.BeginTransaction();
 
             connection.Execute(insertCommand,
-                _newEvents.Select(DatabaseEvent.FromStoredEvent), 
+                _newEvents.Select(DatabaseEvent.FromStoredEvent),
                 transaction);
 
             transaction.Commit();
 
+            foreach(var @event in _newEvents)
+            {
+                notificationService.PublishEvent(@event.AggregateId, @event.EventData);
+            }
             _newEvents.Clear();
         }
     }

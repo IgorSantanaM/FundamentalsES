@@ -29,7 +29,7 @@ namespace BeerSender.QueryAPI.Controllers
         }
 
         [HttpGet]
-        [Route("all-open")]
+        [Route("all-open")] 
         public IEnumerable<OpenBox> GetOpenBoxes()
         {
             return repository.GetAllOpen();
